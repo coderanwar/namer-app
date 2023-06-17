@@ -39,7 +39,13 @@ class MyAppState extends ChangeNotifier {
         ? favorites.remove(current)
         : favorites.add(current);
     notifyListeners();
-    print(favorites);
+  }
+
+  void removeFavorite(WordPair favorite) {
+    if (favorites.contains(favorite)) {
+      favorites.remove(favorite);
+    }
+    notifyListeners();
   }
 }
 
@@ -184,6 +190,24 @@ class FavoritePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
     var favorites = appState.favorites;
 
-    return Center();
+    if (appState.favorites.isEmpty) {
+      return Center(
+        child: Text('No favorites yet.'),
+      );
+    }
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ListView.builder(
+            itemCount: favorites.length,
+            itemBuilder: (BuildContext context, int i) {
+              return ListTile(
+                title: Text(favorites[i].toString()),
+                onTap: () => appState.removeFavorite(favorites[i]),
+              );
+            }),
+      ),
+    );
   }
 }
