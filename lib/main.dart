@@ -203,6 +203,7 @@ class FavoritePage extends StatelessWidget {
             itemCount: favorites.length,
             itemBuilder: (BuildContext context, int i) {
               return ListTile(
+                leading: Icon(Icons.favorite),
                 title: Text(favorites[i].toString()),
                 onTap: () => appState.removeFavorite(favorites[i]),
               );
